@@ -3,10 +3,11 @@ package models
 import "time"
 
 type Merchant struct {
-	UserId       int
-	MerchantName string
-	CreatedAt    time.Time
-	CreatedBy    int64
-	UpdatedAt    time.	Time
-	UpdatedBy    int64
+	Id           int       `gorm:"column:id;primaryKey;"`
+	UserId       int       `gorm:"column:user_id"`
+	MerchantName string    `gorm:"column:merchant_name"`
+	CreatedAt    time.Time `gorm:"column:created_at"`
+	CreatedBy    int64     `gorm:"column:created_by"`
+	UpdatedAt    time.Time `gorm:"column:updated_at"`
+	UpdatedBy    int64     `gorm:"column:updated_by"`
 }
