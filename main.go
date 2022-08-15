@@ -42,5 +42,5 @@ func initRoutes(r *mux.Router) {
 	withAuth := r.NewRoute().Subrouter()
 	withAuth.Use(cMiddleware.Middleware)
 
-	withAuth.HandleFunc("/api/v1/revenue/merchant", cmdRevenue.HTTPDelivery.GetMerchantRevenue).Methods("GET")
+	withAuth.HandleFunc("/api/v1/revenue/{dataType}", cmdRevenue.HTTPDelivery.GetRevenue).Methods("GET")
 }

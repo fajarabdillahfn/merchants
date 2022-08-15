@@ -7,5 +7,5 @@ import (
 )
 
 type UseCase interface {
-	TotalMerchantRevenue(ctx context.Context, userId int) (revenues []models.Revenue, err error)
+	TotalMerchantRevenue(ctx context.Context, userId int, dataType string) (revenues []models.Revenue, err error)
 }

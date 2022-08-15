@@ -7,26 +7,12 @@ import (
 	"github.com/fajarabdillahfn/merchants/internal/models"
 )
 
-func (r *repository) GetMerchantsByUserId(ctx context.Context, userId int) (merchants []models.Merchant, err error) {
-	tableName := models.Merchant.TableName(models.Merchant{})
-
-	dataPrep := r.conn.WithContext(ctx).Table(tableName).Preload("Outlets")
-
-	res := dataPrep.Find(&merchants, "user_id = ?", userId)
-	if res.Error != nil {
-		log.Println("ERROR get merchant: " + res.Error.Error())
-		return nil, res.Error
-	}
-
-	return
-}
-
-func (r *repository) GetMerchantRevenuePerDay(ctx context.Context, startDate string, endDate string, merchantId int) (revenue float64, err error) {
+func (r *repository) GetOutletRevenuePerDay(ctx context.Context, startDate string, endDate string, outletId int) (revenue float64, err error) {
 	var transaction models.Transaction
 	tableName := transaction.TableName()
 
 	check := r.conn.WithContext(ctx).Table(tableName).
-		Where("merchant_id", merchantId).
+		Where("merchant_id", outletId).
 		Where("created_at > ?", startDate).
 		Where("created_at < ?", endDate).
 		Find(&transaction)
@@ -35,7 +21,7 @@ func (r *repository) GetMerchantRevenuePerDay(ctx context.Context, startDate str
 	}
 
 	res := r.conn.WithContext(ctx).Raw("SELECT SUM(bill_total) FROM Transactions WHERE merchant_id = ? AND created_at > ? AND created_at < ?",
-		merchantId,
+		outletId,
 		startDate,
 		endDate).Scan(&revenue)
 
