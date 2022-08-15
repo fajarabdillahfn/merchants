@@ -12,7 +12,7 @@ func (r *repository) GetOutletRevenuePerDay(ctx context.Context, startDate strin
 	tableName := transaction.TableName()
 
 	check := r.conn.WithContext(ctx).Table(tableName).
-		Where("merchant_id", outletId).
+		Where("outlet_id", outletId).
 		Where("created_at > ?", startDate).
 		Where("created_at < ?", endDate).
 		Find(&transaction)
@@ -20,7 +20,7 @@ func (r *repository) GetOutletRevenuePerDay(ctx context.Context, startDate strin
 		return 0, nil
 	}
 
-	res := r.conn.WithContext(ctx).Raw("SELECT SUM(bill_total) FROM Transactions WHERE merchant_id = ? AND created_at > ? AND created_at < ?",
+	res := r.conn.WithContext(ctx).Raw("SELECT SUM(bill_total) FROM Transactions WHERE outlet_id = ? AND created_at > ? AND created_at < ?",
 		outletId,
 		startDate,
 		endDate).Scan(&revenue)
