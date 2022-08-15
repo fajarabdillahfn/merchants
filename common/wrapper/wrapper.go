@@ -66,6 +66,7 @@ func RevenuePaginationJSON(w http.ResponseWriter, page int, limit int, data []mo
 		return
 	} else if page == 0 {
 		page = 1
+		response.Header.Page = page
 	}
 
 	if limit == 0 {
