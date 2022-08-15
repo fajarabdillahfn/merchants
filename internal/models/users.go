@@ -5,6 +5,7 @@ import (
 )
 
 type User struct {
+	Id        int
 	Name      string
 	UserName  string
 	Password  string
@@ -12,4 +13,8 @@ type User struct {
 	CreatedBy int64
 	UpdatedAt time.Time
 	UpdatedBy int64
+}
+
+func (User) TableName() string {
+	return "users"
 }
