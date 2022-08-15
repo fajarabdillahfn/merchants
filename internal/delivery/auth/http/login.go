@@ -2,6 +2,7 @@ package http
 
 import (
 	"crypto/md5"
+	"errors"
 	"fmt"
 	"net/http"
 	"time"
@@ -32,13 +33,13 @@ func (d *Delivery) Login(w http.ResponseWriter, r *http.Request) {
 
 	user, err := d.authUC.UserGetByUsername(ctx, r.FormValue("username"))
 	if err != nil {
-		cWrapper.ErrorJSON(w, err)
+		cWrapper.ErrorJSON(w, errors.New("invalid username or password"), http.StatusUnauthorized)
 		return
 	}
 
 	hashedPassword := fmt.Sprintf("%x", md5.Sum([]byte(r.FormValue("password"))))
 	if hashedPassword != user.Password {
-		cWrapper.ErrorJSON(w, err)
+		cWrapper.ErrorJSON(w, errors.New("invalid username or password"), http.StatusUnauthorized)
 		return
 	}
 
