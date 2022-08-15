@@ -12,3 +12,7 @@ type Transaction struct {
 	UpdatedAt  time.Time `gorm:"column:updated_at"`
 	UpdatedBy  int64     `gorm:"column:updated_by"`
 }
+
+func (Transaction) TableName() string {
+	return "transactions"
+}

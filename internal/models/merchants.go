@@ -11,3 +11,7 @@ type Merchant struct {
 	UpdatedAt    time.Time `gorm:"column:updated_at"`
 	UpdatedBy    int64     `gorm:"column:updated_by"`
 }
+
+func (Merchant) TableName() string {
+	return "merchants"
+}
